@@ -29,7 +29,7 @@ public class EnterpriseSearchService {
     @Value("${elasticsearch.alias}")
     private String alias;
 
-    public List<Map> getAIPoolSearchList(Request param) throws IOException {
+    public List<Map> getEnterpriseSearchList(Request param) throws IOException {
         SearchResponse<Map> response = repository.search(getSearchRequest(param));
         return response.hits().hits().stream().map(Hit::source).collect(Collectors.toList());
     }
