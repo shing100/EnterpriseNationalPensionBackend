@@ -1,0 +1,35 @@
+server:
+  servlet:
+    context-path: /national-pension-collect
+
+logging:
+  level:
+    root: info
+
+---
+spring:
+  profiles: local
+
+elasticsearch:
+  hosts:
+    - 192.168.0.102
+  port: 9200
+  index:
+    national_pension_collect-index: national-pension-collect
+    national_pension_collect-alias: enterprise-collect
+    national_pension_industry_collect-index: national-pension-industry-collect
+    national_pension_location_collect-index: national-pension-location-collect
+
+---
+spring:
+  profiles: prod
+
+elasticsearch:
+  hosts:
+    - 192.168.0.102
+  port: 9200
+  index:
+    national_pension_collect-index: national-pension-collect
+    national_pension_collect-alias: enterprise-collect
+    national_pension_industry_collect-index: national-pension-industry-collect
+    national_pension_location_collect-index: national-pension-location-collect
