@@ -34,6 +34,18 @@ public class EnterpriseSearchService {
         return response.hits().hits().stream().map(Hit::source).collect(Collectors.toList());
     }
 
+    public List<Map> getNationalPensionLocationSearchList() throws IOException {
+        SearchResponse<Map> response = repository.search(getLocationSearchRequest());
+        return response.hits().hits().stream().map(Hit::source).collect(Collectors.toList());
+    }
+
+    private SearchRequest getLocationSearchRequest() {
+        return SearchRequest.of(req ->
+                req.query(EnterPriseSearchQuery.getQuery())
+                        .index(alias)
+        );
+    }
+
     private SearchRequest getSearchRequest(Request param) {
         return SearchRequest.of(req ->
                 req.query(EnterPriseSearchQuery.getQuery())
