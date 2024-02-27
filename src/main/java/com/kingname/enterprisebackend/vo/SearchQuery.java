@@ -20,6 +20,9 @@ public class SearchQuery {
         private String minMemberCount;
         private String maxMemberCount;
         private String csn;
+
+        private int page;
+        private int size;
         private String sort;
     }
 

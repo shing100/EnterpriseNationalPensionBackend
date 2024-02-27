@@ -42,53 +42,11 @@ public class EnterpriseSearchService {
                 .collect(Collectors.toList());
     }
 
-    public <T> List<T> getNationalPensionSearchList(String indexName, SearchQuery.Request request, Class<T> tClass) throws IOException {
-        SearchResponse<Map> response = repository.search(getLocationSortByDateSearchRequest(indexName, request));
-        return response.hits().hits().stream()
-                .map(Hit::source)
-                .map(map -> modelMapper.map(map, tClass))
-                .collect(Collectors.toList());
-    }
-
-
-
-    public String getNationalPensionLastDate(String indexName) throws IOException {
-        SearchResponse<Map> response = repository.search(getLastDateSearchRequest(indexName));
-        return response.hits().hits().get(0).source().get("date").toString();
-    }
-
-    private SearchRequest getLastDateSearchRequest(String indexName) {
-        return SearchRequest.of(req ->
-                req.query(new MatchAllQuery.Builder().build()._toQuery())
-                        .sort(new SortOptions.Builder()
-                                .field(new FieldSort.Builder()
-                                        .field("date.keyword")
-                                        .order(SortOrder.Desc)
-                                        .build()
-                                ).build()
-                        )
-                        .size(1)
-                        .index(indexName)
-        );
-    }
-
-    private SearchRequest getLocationSortByDateSearchRequest(String indexName, SearchQuery.Request request) {
-        return SearchRequest.of(req ->
-                req.query(EnterpriseLocationSearchQuery.getQuery(request))
-                        .sort(new SortOptions.Builder()
-                                .field(new FieldSort.Builder()
-                                        .field(request.getSort())
-                                        .order(SortOrder.Desc)
-                                        .build()
-                                ).build()
-                        )
-                        .index(indexName)
-        );
-    }
-
     private SearchRequest getSearchRequest(SearchQuery.Request param) {
         return SearchRequest.of(req ->
                 req.query(EnterPriseSearchQuery.getQuery(param))
+                        .from(param.getPage() == 1 ? 0 : param.getPage() * param.getSize())
+                        .size(param.getSize())
                         .index(alias)
         );
     }
