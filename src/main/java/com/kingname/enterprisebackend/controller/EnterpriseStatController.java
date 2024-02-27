@@ -1,7 +1,7 @@
 package com.kingname.enterprisebackend.controller;
 
 import com.kingname.enterprisebackend.service.EnterpriseStatService;
-import com.kingname.enterprisebackend.vo.RecomCompany;
+import com.kingname.enterprisebackend.vo.SearchQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -20,12 +20,12 @@ public class EnterpriseStatController {
     private final EnterpriseStatService enterpriseStatService;
 
     @GetMapping("/recom/company")
-    public ResponseEntity<RecomCompany.Response> getRecomCompany(@ModelAttribute RecomCompany.Request request) throws IOException {
+    public ResponseEntity<SearchQuery.Response> getRecomCompany(@ModelAttribute SearchQuery.Request request) throws IOException {
         log.info("GET /recom/company {}", request.toString());
 
-        List<?> enterpriseStatList = enterpriseStatService.getEnterpriseLocationList();
+        List<?> enterpriseStatList = enterpriseStatService.getEnterpriseLocationList(request);
         return ResponseEntity.ok(
-                RecomCompany.Response.builder()
+                SearchQuery.Response.builder()
                         .resultCnt(0)
                         .resultList(enterpriseStatList)
                         .build()
