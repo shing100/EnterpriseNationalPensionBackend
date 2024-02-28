@@ -23,10 +23,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.kingname.enterprisebackend.utils.MathUtils.calculateRate;
@@ -98,7 +95,7 @@ public class EnterpriseStatService {
         BigDecimal totalEmployedMemberRate = calculateRate(totalEmployedMemberCount, beforeTotalEmployedMemberCount);
         BigDecimal totalCompanyRate = calculateRate(totalCompanyCount, beforeTotalCompanyCount);
 
-        Map<String, Object> resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new LinkedHashMap<>();
         resultMap.put("year", lastDate.substring(0, 4));
         resultMap.put("month", lastDate.substring(4, 6));
         resultMap.put("totalEmployed", totalEmployed);
@@ -113,11 +110,9 @@ public class EnterpriseStatService {
     }
 
 
-
     // 평균연봉정보 (이번달 평균, 중위 연봉, 최신년도 평균 연봉, 중위 연봉)
     public Map<String, Object> getAverageSalaryInfo() throws IOException {
         String lastDate = getNationalPensionLastDate(elasticsearchIndexProperties.getNationalPensionLocationCollectIndex());
-        log.info("last Date : {}", lastDate);
         SearchQuery.Request request = SearchQuery.Request.builder()
                 .date(lastDate)
                 .sort("date.keyword")
@@ -145,6 +140,10 @@ public class EnterpriseStatService {
                 .map(LocationStatistic::getLocationMedianSalary)
                 .reduce(0L, Long::sum))
                 .divide(BigDecimal.valueOf(enterpriseLocationList.size()), 0, RoundingMode.HALF_UP);
+        BigDecimal upperQuartileSalary = BigDecimal.valueOf(enterpriseLocationList.stream()
+                .map(LocationStatistic::getLocationUpperQuartileSalary)
+                .reduce(0L, Long::sum))
+                .divide(BigDecimal.valueOf(enterpriseLocationList.size()), 0, RoundingMode.HALF_UP);
 
         // 이전달
         BigDecimal beforeAverageSalary = BigDecimal.valueOf(beforeEnterpriseLocationList.stream()
@@ -155,9 +154,14 @@ public class EnterpriseStatService {
                 .map(LocationStatistic::getLocationMedianSalary)
                 .reduce(0L, Long::sum))
                 .divide(BigDecimal.valueOf(beforeEnterpriseLocationList.size()), 0, RoundingMode.HALF_UP);
+        BigDecimal beforeUpperQuartileSalary = BigDecimal.valueOf(beforeEnterpriseLocationList.stream()
+                .map(LocationStatistic::getLocationUpperQuartileSalary)
+                .reduce(0L, Long::sum))
+                .divide(BigDecimal.valueOf(beforeEnterpriseLocationList.size()), 0, RoundingMode.HALF_UP);
 
         BigDecimal averageSalaryGrowthRate = calculateRate(averageSalary, beforeAverageSalary);
         BigDecimal medianSalaryGrowthRate = calculateRate(medianSalary, beforeMedianSalary);
+        BigDecimal upperQuartileSalaryGrowthRate = calculateRate(upperQuartileSalary, beforeUpperQuartileSalary);
 
         return Map.of(
                 "year", lastDate.substring(0, 4),
@@ -165,7 +169,9 @@ public class EnterpriseStatService {
                 "monthlyAverageSalary", averageSalary,
                 "monthlyAverageSalaryGrowthRate", averageSalaryGrowthRate,
                 "medianSalary", medianSalary,
-                "medianSalaryGrowthRate", medianSalaryGrowthRate
+                "medianSalaryGrowthRate", medianSalaryGrowthRate,
+                "upperQuartileSalary", upperQuartileSalary,
+                "upperQuartileSalaryGrowthRate", upperQuartileSalaryGrowthRate
         );
     }
 

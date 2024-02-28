@@ -1,5 +1,7 @@
 package com.kingname.enterprisebackend.controller;
 
+import com.kingname.enterprisebackend.exception.ErrorCode;
+import com.kingname.enterprisebackend.exception.NationPensionException;
 import com.kingname.enterprisebackend.service.EnterpriseSearchService;
 import com.kingname.enterprisebackend.service.EnterpriseStatService;
 import com.kingname.enterprisebackend.vo.AverageSalaryInfo;
@@ -50,8 +52,13 @@ public class EnterpriseStatController {
     @GetMapping("/average/company")
     public ResponseEntity<?> averageStat() throws IOException {
         log.info("GET /average/company");
-        Map<String, Object> averageSalaryInfo = enterpriseStatService.getAverageSalaryInfo();
-        return ResponseEntity.ok(averageSalaryInfo);
+        try {
+            Map<String, Object> averageSalaryInfo = enterpriseStatService.getAverageSalaryInfo();
+            return ResponseEntity.ok(averageSalaryInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new NationPensionException(ErrorCode.INTERNAL_SERVER_EXCEPTION, "통계 조회 중 오류가 발생했습니다.");
+        }
     }
 
     @GetMapping("/today/insight")

@@ -9,6 +9,6 @@ public class MathUtils {
         if (previous.compareTo(BigDecimal.ZERO) == 0) {
             return BigDecimal.ZERO;
         }
-        return current.subtract(previous).divide(previous, 2, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100));
+        return current.subtract(previous).divide(previous, 4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100));
     }
 }
