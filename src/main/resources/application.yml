@@ -1,6 +1,6 @@
 server:
   servlet:
-    context-path: /national-pension-collect
+    context-path: /insight
 
 logging:
   level:

@@ -17,12 +17,12 @@ public class SearchQuery {
         private String industry;
         private String company;
         private String companyType;
-        private String minMemberCount;
-        private String maxMemberCount;
+        private int minMemberCount;
+        private int maxMemberCount;
         private String csn;
 
-        private int page;
-        private int size;
+        private int page = 0;
+        private int size = 40;
         private String sort;
     }
 

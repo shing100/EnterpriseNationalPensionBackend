@@ -20,7 +20,7 @@ public class EnterPriseSearchQuery implements EsQueryBuilder {
         return new FunctionScoreQuery.Builder()
                 .query(getConditionQuery(request))
                 .boost(QueryConstant.CONST_FLOAT_1)
-                .functions(getFunctions())
+                //.functions(getFunctions())
                 .maxBoost(QueryConstant.CONST_DOUBLE_100_000)
                 .boostMode(FunctionBoostMode.Replace)
                 .scoreMode(FunctionScoreMode.Sum)
@@ -38,9 +38,9 @@ public class EnterPriseSearchQuery implements EsQueryBuilder {
 
     private static List<Query> getFilters(SearchQuery.Request request) {
         return Stream.of(
-                        MemberFilterQueryBuilder.getQuery(Integer.parseInt(request.getMaxMemberCount()), Integer.parseInt(request.getMinMemberCount())),
-                        ScaleQueryBuilder.getQuery(Arrays.stream(request.getCompanyType().split(",")).collect(Collectors.toList())),
-                        DateTermQueryBuilder.getQuery(request.getDate())
+                        MemberFilterQueryBuilder.getQuery(request.getMaxMemberCount(), request.getMinMemberCount()),
+                        ScaleQueryBuilder.getQuery(request),
+                        DateTermQueryBuilder.getQuery(request)
                 )
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());

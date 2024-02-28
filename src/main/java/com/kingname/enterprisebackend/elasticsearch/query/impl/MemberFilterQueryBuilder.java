@@ -10,6 +10,11 @@ public class MemberFilterQueryBuilder implements EsQueryBuilder {
     public static Query getQuery(int maxMemberCount, int minMemberCount) {
         if (maxMemberCount > 0 && minMemberCount > 0)
             return EsQueryBuilder.betweenQuery("totalMemberCount", (long) minMemberCount, (long) maxMemberCount);
-        return null;
+        else if (maxMemberCount > 0)
+            return EsQueryBuilder.betweenQuery("totalMemberCount", null, (long) maxMemberCount);
+        else if (minMemberCount > 0)
+            return EsQueryBuilder.betweenQuery("totalMemberCount", (long) minMemberCount, null);
+        else
+            return null;
     }
 }
