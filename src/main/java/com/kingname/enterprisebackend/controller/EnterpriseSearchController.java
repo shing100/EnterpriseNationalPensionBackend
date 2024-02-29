@@ -20,6 +20,18 @@ public class EnterpriseSearchController {
         return ResponseEntity.ok("Company list");
     }
 
+    @PostMapping("/industry/list")
+    public ResponseEntity<?> industryCompanyList() {
+        log.info("POST /industry/list");
+        return ResponseEntity.ok("Industry list");
+    }
+
+    @PostMapping("/location/list")
+    public ResponseEntity<?> locationCompanyList() {
+        log.info("POST /location/list");
+        return ResponseEntity.ok("Location list");
+    }
+
     @PostMapping("/recruit/list")
     public ResponseEntity<?> recruitList() {
         log.info("POST /recruit/list");
