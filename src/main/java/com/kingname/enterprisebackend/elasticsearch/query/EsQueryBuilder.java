@@ -49,36 +49,6 @@ public interface EsQueryBuilder {
         }
     }
 
-    static Query greaterThenEqualQuery(String fieldName, String minValue) {
-        Long minLongValue = StringUtils.isNotBlank(minValue) ? Long.parseLong(minValue) : null;
-        if(Objects.isNull(minLongValue)) return null;
-        return new RangeQuery.Builder()
-                .field(fieldName)
-                .gte(JsonData.of(minLongValue))
-                .build()
-                ._toQuery();
-    }
-
-    static Query greaterThenQuery(String fieldName, String minValue) {
-        Long minLongValue = StringUtils.isNotBlank(minValue) ? Long.parseLong(minValue) : null;
-        if(Objects.isNull(minLongValue)) return null;
-        return new RangeQuery.Builder()
-                .field(fieldName)
-                .gt(JsonData.of(minLongValue))
-                .build()
-                ._toQuery();
-    }
-
-    static Query lessThanEqualQuery(String fieldName, String maxValue) {
-        Long maxLongValue = StringUtils.isNotBlank(maxValue) ? Long.parseLong(maxValue) : null;
-        if(Objects.isNull(maxLongValue)) return null;
-        return new RangeQuery.Builder()
-                .field(fieldName)
-                .lte(JsonData.of(maxLongValue))
-                .build()
-                ._toQuery();
-    }
-
     static Query greaterThanAndSmallerThanQuery(String fieldName, String minValue, String maxValue) {
         Long minLongValue = StringUtils.isNotBlank(minValue) ? Long.parseLong(minValue) : null;
         Long maxLongValue = StringUtils.isNotBlank(maxValue) ? Long.parseLong(maxValue) : null;
