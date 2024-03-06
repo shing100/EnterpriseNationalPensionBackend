@@ -9,6 +9,7 @@ import com.kingname.enterprisebackend.vo.SearchQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -49,9 +51,9 @@ public class EnterpriseStatController {
         );
     }
 
-    @GetMapping("/average/company")
+    @GetMapping("/average")
     public ResponseEntity<?> averageStat() throws IOException {
-        log.info("GET /average/company");
+        log.info("GET /average");
         try {
             Map<String, Object> averageSalaryInfo = enterpriseStatService.getAverageSalaryInfo();
             return ResponseEntity.ok(averageSalaryInfo);
@@ -61,9 +63,9 @@ public class EnterpriseStatController {
         }
     }
 
-    @GetMapping("/today/insight")
-    public ResponseEntity<?> todayInsight() throws IOException {
-        log.info("GET /today/insight");
+    @GetMapping("/monthly")
+    public ResponseEntity<?> monthStat() throws IOException {
+        log.info("GET /monthly");
         Map<String, Object> todayEnterpriseInsight = enterpriseStatService.getTodayEnterpriseInsight();
         return ResponseEntity.ok(todayEnterpriseInsight);
     }

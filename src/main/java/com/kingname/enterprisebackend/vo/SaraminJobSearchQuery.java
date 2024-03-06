@@ -9,5 +9,5 @@ public class SaraminJobSearchQuery {
     private String keywords;
     private String loc_mcd;
     private String job_cd;
-    private int count;
+    private int count = 110;
 }

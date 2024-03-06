@@ -98,10 +98,15 @@ public class EnterpriseStatService {
         Map<String, Object> resultMap = new LinkedHashMap<>();
         resultMap.put("year", lastDate.substring(0, 4));
         resultMap.put("month", lastDate.substring(4, 6));
+        resultMap.put("beforeDate", lastDate);
         resultMap.put("totalEmployed", totalEmployed);
+        resultMap.put("beforeTotalEmployed", beforeTotalEmployed);
         resultMap.put("totalLostMemberCount", totalLostMemberCount);
+        resultMap.put("beforeTotalLostMemberCount", beforeTotalLostMemberCount);
         resultMap.put("totalEmployedMemberCount", totalEmployedMemberCount);
+        resultMap.put("beforeTotalEmployedMemberCount", beforeTotalEmployedMemberCount);
         resultMap.put("totalCompanyCount", totalCompanyCount);
+        resultMap.put("beforeTotalCompanyCount", beforeTotalCompanyCount);
         resultMap.put("totalEmployedRate", totalEmployedRate);
         resultMap.put("totalLostMemberRate", totalLostMemberRate);
         resultMap.put("totalEmployedMemberRate", totalEmployedMemberRate);
@@ -144,6 +149,10 @@ public class EnterpriseStatService {
                 .map(LocationStatistic::getLocationUpperQuartileSalary)
                 .reduce(0L, Long::sum))
                 .divide(BigDecimal.valueOf(enterpriseLocationList.size()), 0, RoundingMode.HALF_UP);
+        BigDecimal lowerQuartileSalary = BigDecimal.valueOf(enterpriseLocationList.stream()
+                .map(LocationStatistic::getLocationLowerQuartileSalary)
+                .reduce(0L, Long::sum))
+                .divide(BigDecimal.valueOf(enterpriseLocationList.size()), 0, RoundingMode.HALF_UP);
 
         // 이전달
         BigDecimal beforeAverageSalary = BigDecimal.valueOf(beforeEnterpriseLocationList.stream()
@@ -158,21 +167,32 @@ public class EnterpriseStatService {
                 .map(LocationStatistic::getLocationUpperQuartileSalary)
                 .reduce(0L, Long::sum))
                 .divide(BigDecimal.valueOf(beforeEnterpriseLocationList.size()), 0, RoundingMode.HALF_UP);
+        BigDecimal beforeLowerQuartileSalary = BigDecimal.valueOf(beforeEnterpriseLocationList.stream()
+                .map(LocationStatistic::getLocationLowerQuartileSalary)
+                .reduce(0L, Long::sum))
+                .divide(BigDecimal.valueOf(beforeEnterpriseLocationList.size()), 0, RoundingMode.HALF_UP);
 
         BigDecimal averageSalaryGrowthRate = calculateRate(averageSalary, beforeAverageSalary);
         BigDecimal medianSalaryGrowthRate = calculateRate(medianSalary, beforeMedianSalary);
         BigDecimal upperQuartileSalaryGrowthRate = calculateRate(upperQuartileSalary, beforeUpperQuartileSalary);
-
-        return Map.of(
-                "year", lastDate.substring(0, 4),
-                "month", lastDate.substring(4, 6),
-                "monthlyAverageSalary", averageSalary,
-                "monthlyAverageSalaryGrowthRate", averageSalaryGrowthRate,
-                "medianSalary", medianSalary,
-                "medianSalaryGrowthRate", medianSalaryGrowthRate,
-                "upperQuartileSalary", upperQuartileSalary,
-                "upperQuartileSalaryGrowthRate", upperQuartileSalaryGrowthRate
-        );
+        BigDecimal lowerQuartileSalaryGrowthRate = calculateRate(lowerQuartileSalary, beforeLowerQuartileSalary);
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("year", lastDate.substring(0, 4));
+        result.put("month", lastDate.substring(4, 6));
+        result.put("beforeDate", lastDate);
+        result.put("averageSalary", averageSalary);
+        result.put("medianSalary", medianSalary);
+        result.put("upperQuartileSalary", upperQuartileSalary);
+        result.put("lowerQuartileSalary", lowerQuartileSalary);
+        result.put("averageSalaryGrowthRate", averageSalaryGrowthRate);
+        result.put("medianSalaryGrowthRate", medianSalaryGrowthRate);
+        result.put("upperQuartileSalaryGrowthRate", upperQuartileSalaryGrowthRate);
+        result.put("lowerQuartileSalaryGrowthRate", lowerQuartileSalaryGrowthRate);
+        result.put("beforeAverageSalary", beforeAverageSalary);
+        result.put("beforeMedianSalary", beforeMedianSalary);
+        result.put("beforeUpperQuartileSalary", beforeUpperQuartileSalary);
+        result.put("beforeLowerQuartileSalary", beforeLowerQuartileSalary);
+        return result;
     }
 
     // 국민연금 납부액 TOP 5 기업
