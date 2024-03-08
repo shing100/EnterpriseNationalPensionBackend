@@ -6,6 +6,7 @@ import com.kingname.enterprisebackend.vo.SaraminJobSearchQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -33,8 +34,8 @@ public class SaraminJobService {
 
     private final RestTemplate restTemplate;
 
+    @Cacheable(value = "saraminJobList", key = "#query")
     public String searchJobs(SaraminJobSearchQuery query) throws UnsupportedEncodingException {
-
         try {
             String text = URLEncoder.encode(query.getKeywords() == null ? "" : query.getKeywords(), "UTF-8");
             String apiURL = "https://oapi.saramin.co.kr/job-search?access-key="+apiKey+"&keyword="+ text;

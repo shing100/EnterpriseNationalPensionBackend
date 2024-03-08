@@ -25,6 +25,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
+    // ehcache
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'org.ehcache:ehcache:3.10.0'
+    implementation 'javax.cache:cache-api:1.1.1'
+
     // ElasticSearch
     implementation 'co.elastic.clients:elasticsearch-java:8.8.2'
     implementation 'org.elasticsearch.client:elasticsearch-rest-client:8.8.2'
