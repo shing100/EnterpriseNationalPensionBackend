@@ -8,10 +8,10 @@
 
 <!--    <persistence directory="${user.home}/ehcache/recruit-search/embedding" />-->
     <!-- 캐시 설정 시작 -->
-    <cache alias="embeddingCache"> <!-- @Cacheable의 value, 캐시 이름 -->
-        <key-type>java.lang.Object</key-type> <!-- @Cacheable의 key, 캐시 키 타입, 기본 값은 java.lang.Object -->
+    <cache alias="saraminJobList"> <!-- @Cacheable의 value, 캐시 이름 -->
+        <key-type>com.kingname.enterprisebackend.vo.SaraminJobSearchQuery</key-type> <!-- @Cacheable의 key, 캐시 키 타입, 기본 값은 java.lang.Object -->
         <!-- @Cacheable의 return 타입 class 위치, 기본 값은 java.lang.Object -->
-        <value-type>java.util.Object</value-type>
+        <value-type>java.lang.String</value-type>
 
         <!-- ttl 설정 -->
         <expiry>
@@ -23,7 +23,7 @@
         <listeners>
             <listener>
                 <!-- 리스너 클래스 위치 -->
-                <class>com.kingname.enterprisebackend.component.EmbeddingCacheEventListener</class>
+                <class>com.kingname.enterprisebackend.component.JobSearchCacheEventListener</class>
 
                 <!-- 비동기 방식 , 반대 동기는 SYNCHRONOUS -->
                 <event-firing-mode>ASYNCHRONOUS</event-firing-mode>

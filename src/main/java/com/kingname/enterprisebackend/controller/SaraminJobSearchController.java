@@ -26,6 +26,7 @@ public class SaraminJobSearchController {
     @CrossOrigin
     @GetMapping("/saramin/job-list")
     public ResponseEntity<?> searchJobs(@ModelAttribute SaraminJobSearchQuery query) throws UnsupportedEncodingException, JsonProcessingException {
+        log.info("GET /saramin/job-list {}", query.toString());
         return ResponseEntity.ok(objectMapper.readValue(saraminJobService.searchJobs(query), Map.class));
     }
 }
