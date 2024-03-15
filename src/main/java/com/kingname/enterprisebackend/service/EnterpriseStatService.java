@@ -42,7 +42,6 @@ public class EnterpriseStatService {
     // 오늘의 인사이트 (기업 총 수, 전체 근로자 수, 취업자수, 실업자수)
     public Map<String, Object> getTodayEnterpriseInsight() throws IOException {
         String lastDate = getNationalPensionLastDate(elasticsearchIndexProperties.getNationalPensionLocationCollectIndex());
-        log.info("last Date : {}", lastDate);
         SearchQuery.Request request = SearchQuery.Request.builder()
                 .date(lastDate)
                 .sort("date.keyword")
