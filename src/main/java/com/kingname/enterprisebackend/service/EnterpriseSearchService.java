@@ -41,11 +41,8 @@ public class EnterpriseSearchService {
 
     public List<CompanyDetail> getEnterpriseSearchList(SearchQuery.Request param) throws IOException {
         List<SortOptions> sortOptions = new ArrayList<>();
-        if (param.getSort().equals("currentMonthDueAmount")) {
-            SortOptions options = new SortOptions.Builder()
-                    .field(new FieldSort.Builder().field(param.getSort()).order(SortOrder.Desc).build()).build();
-            sortOptions.add(options);
-        }
+        getSortOptions(param, "currentMonthDueAmount", sortOptions);
+        getSortOptions(param, "totalMemberCount", sortOptions);
 
         SearchResponse<Map> response = repository.search(getSearchRequest(param, sortOptions));
         return response.hits().hits().stream()
@@ -57,11 +54,7 @@ public class EnterpriseSearchService {
 
     public List<LocationStatistic> getEnterpriseLocationList(SearchQuery.Request param) throws IOException {
         List<SortOptions> sortOptions = new ArrayList<>();
-        if (param.getSort().equals("totalMemberCount")) {
-            SortOptions options = new SortOptions.Builder()
-                    .field(new FieldSort.Builder().field(param.getSort()).order(SortOrder.Desc).build()).build();
-            sortOptions.add(options);
-        }
+        getSortOptions(param, "totalMemberCount", sortOptions);
 
         SearchResponse<Map> response = repository.search(getLocationSearchRequest(param, sortOptions));
         return response.hits().hits().stream()
@@ -72,11 +65,7 @@ public class EnterpriseSearchService {
 
     public List<IndustryStatistic> getEnterpriseIndustryList(SearchQuery.Request param) throws IOException {
         List<SortOptions> sortOptions = new ArrayList<>();
-        if (param.getSort().equals("totalMemberCount")) {
-            SortOptions options = new SortOptions.Builder()
-                    .field(new FieldSort.Builder().field(param.getSort()).order(SortOrder.Desc).build()).build();
-            sortOptions.add(options);
-        }
+        getSortOptions(param, "totalMemberCount", sortOptions);
 
         SearchResponse<Map> response = repository.search(getIndustrySearchRequest(param, sortOptions));
         return response.hits().hits().stream()
@@ -123,5 +112,13 @@ public class EnterpriseSearchService {
                         .sort(sortOptions)
                         .index(elasticsearchIndexProperties.getNationalPensionCollectAlias())
         );
+    }
+
+    private static void getSortOptions(SearchQuery.Request param, String sortType, List<SortOptions> sortOptions) {
+        if (param.getSort().equals(sortType)) {
+            SortOptions options = new SortOptions.Builder()
+                    .field(new FieldSort.Builder().field(param.getSort()).order(SortOrder.Desc).build()).build();
+            sortOptions.add(options);
+        }
     }
 }
