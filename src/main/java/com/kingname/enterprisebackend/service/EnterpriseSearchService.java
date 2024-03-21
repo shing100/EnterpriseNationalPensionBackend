@@ -81,7 +81,7 @@ public class EnterpriseSearchService {
                         .from(param.getPage() == 1 ? 0 : param.getPage() * param.getSize())
                         .size(param.getSize())
                         .sort(sortOptions)
-                        .index(elasticsearchIndexProperties.getNationalPensionCollectAlias())
+                        .index(elasticsearchIndexProperties.getNationalPensionIndustryCollectIndex())
         );
     }
 
@@ -98,7 +98,7 @@ public class EnterpriseSearchService {
                         .from(param.getPage() == 1 ? 0 : param.getPage() * param.getSize())
                         .size(param.getSize())
                         .sort(sortOptions)
-                        .index(elasticsearchIndexProperties.getNationalPensionCollectAlias())
+                        .index(elasticsearchIndexProperties.getNationalPensionLocationCollectIndex())
         );
     }
 
