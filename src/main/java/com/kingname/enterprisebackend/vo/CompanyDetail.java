@@ -15,6 +15,7 @@ public class CompanyDetail {
     private int month;
     private String companyName;
     private String originalCompanyName;
+    private String synCompanyName;
     private String csn;
     private int companyStatusCode;
     private String zipCode;

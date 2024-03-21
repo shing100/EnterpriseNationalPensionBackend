@@ -1,6 +1,7 @@
 package com.kingname.enterprisebackend.elasticsearch.query;
 
 import co.elastic.clients.elasticsearch._types.query_dsl.*;
+import com.kingname.enterprisebackend.elasticsearch.query.impl.CompanyNameQueryBuilder;
 import com.kingname.enterprisebackend.elasticsearch.query.impl.DateTermQueryBuilder;
 import com.kingname.enterprisebackend.elasticsearch.query.impl.MemberFilterQueryBuilder;
 import com.kingname.enterprisebackend.elasticsearch.query.impl.ScaleQueryBuilder;
@@ -32,8 +33,17 @@ public class EnterPriseSearchQuery implements EsQueryBuilder {
     private static Query getConditionQuery(SearchQuery.Request request) {
         return new BoolQuery.Builder()
                 .filter(getFilters(request))
+                .must(getMustQueries(request))
                 .build()
                 ._toQuery();
+    }
+
+    private static List<Query> getMustQueries(SearchQuery.Request request) {
+        return Stream.of(
+                        CompanyNameQueryBuilder.getQuery(request.getCompany())
+                )
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
     private static List<Query> getFilters(SearchQuery.Request request) {
