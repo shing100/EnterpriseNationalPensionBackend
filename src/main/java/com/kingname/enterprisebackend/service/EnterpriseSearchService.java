@@ -43,6 +43,7 @@ public class EnterpriseSearchService {
         List<SortOptions> sortOptions = new ArrayList<>();
         getSortOptions(param, "currentMonthDueAmount", sortOptions);
         getSortOptions(param, "totalMemberCount", sortOptions);
+        getSortOptions(param, "date", sortOptions);
 
         SearchResponse<Map> response = repository.search(getSearchRequest(param, sortOptions));
         return response.hits().hits().stream()
@@ -55,6 +56,7 @@ public class EnterpriseSearchService {
     public List<LocationStatistic> getEnterpriseLocationList(SearchQuery.Request param) throws IOException {
         List<SortOptions> sortOptions = new ArrayList<>();
         getSortOptions(param, "totalMemberCount", sortOptions);
+        getSortOptions(param, "date", sortOptions);
 
         SearchResponse<Map> response = repository.search(getLocationSearchRequest(param, sortOptions));
         return response.hits().hits().stream()
@@ -66,6 +68,7 @@ public class EnterpriseSearchService {
     public List<IndustryStatistic> getEnterpriseIndustryList(SearchQuery.Request param) throws IOException {
         List<SortOptions> sortOptions = new ArrayList<>();
         getSortOptions(param, "totalMemberCount", sortOptions);
+        getSortOptions(param, "date", sortOptions);
 
         SearchResponse<Map> response = repository.search(getIndustrySearchRequest(param, sortOptions));
         return response.hits().hits().stream()

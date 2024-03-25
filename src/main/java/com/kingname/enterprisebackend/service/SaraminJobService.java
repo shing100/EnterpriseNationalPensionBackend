@@ -38,7 +38,7 @@ public class SaraminJobService {
     public String searchJobs(SaraminJobSearchQuery query) throws UnsupportedEncodingException {
         try {
             String text = URLEncoder.encode(query.getKeywords() == null ? "" : query.getKeywords(), "UTF-8");
-            String apiURL = "https://oapi.saramin.co.kr/job-search?access-key="+apiKey+"&keyword="+ text;
+            String apiURL = "https://oapi.saramin.co.kr/job-search?access-key="+apiKey+"&keywords="+ text;
             if (query.getLoc_mcd() != null) {
                 apiURL += "&loc_mcd=" + query.getLoc_mcd();
             }
