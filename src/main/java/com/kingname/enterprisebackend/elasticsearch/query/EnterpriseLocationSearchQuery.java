@@ -2,10 +2,7 @@ package com.kingname.enterprisebackend.elasticsearch.query;
 
 import co.elastic.clients.elasticsearch._types.query_dsl.*;
 import co.elastic.clients.util.ObjectBuilder;
-import com.kingname.enterprisebackend.elasticsearch.query.impl.DateTermQueryBuilder;
-import com.kingname.enterprisebackend.elasticsearch.query.impl.LocationNameQueryBuilder;
-import com.kingname.enterprisebackend.elasticsearch.query.impl.MemberFilterQueryBuilder;
-import com.kingname.enterprisebackend.elasticsearch.query.impl.ScaleQueryBuilder;
+import com.kingname.enterprisebackend.elasticsearch.query.impl.*;
 import com.kingname.enterprisebackend.vo.SearchQuery;
 
 import java.util.List;
@@ -36,7 +33,8 @@ public class EnterpriseLocationSearchQuery implements EsQueryBuilder {
         return Stream.of(
                         MemberFilterQueryBuilder.getQuery(request.getMaxMemberCount(), request.getMinMemberCount()),
                         DateTermQueryBuilder.getQuery(request),
-                        LocationNameQueryBuilder.getQuery(request)
+                        LocationNameQueryBuilder.getQuery(request),
+                        LocationFilterQueryBuilder.getQuery(request)
                 )
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());

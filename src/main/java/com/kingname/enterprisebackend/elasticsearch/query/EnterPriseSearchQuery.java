@@ -14,6 +14,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.kingname.enterprisebackend.utils.CommonUtils.refineSeed;
+
 @Slf4j
 public class EnterPriseSearchQuery implements EsQueryBuilder {
 
@@ -40,7 +42,7 @@ public class EnterPriseSearchQuery implements EsQueryBuilder {
 
     private static List<Query> getMustQueries(SearchQuery.Request request) {
         return Stream.of(
-                        CompanyNameQueryBuilder.getQuery(request.getCompany())
+                        CompanyNameQueryBuilder.getQuery(refineSeed(request.getCompany()))
                 )
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
@@ -59,5 +61,4 @@ public class EnterPriseSearchQuery implements EsQueryBuilder {
     private static FunctionScore getFunctions() {
         return null;
     }
-
 }
