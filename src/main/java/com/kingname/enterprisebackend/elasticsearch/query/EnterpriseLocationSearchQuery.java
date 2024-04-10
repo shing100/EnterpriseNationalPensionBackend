@@ -33,8 +33,7 @@ public class EnterpriseLocationSearchQuery implements EsQueryBuilder {
         return Stream.of(
                         MemberFilterQueryBuilder.getQuery(request.getMaxMemberCount(), request.getMinMemberCount()),
                         DateTermQueryBuilder.getQuery(request),
-                        LocationNameQueryBuilder.getQuery(request),
-                        LocationFilterQueryBuilder.getQuery(request)
+                        LocationNameQueryBuilder.getQuery(request)
                 )
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
