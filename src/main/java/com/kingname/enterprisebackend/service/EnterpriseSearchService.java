@@ -95,10 +95,8 @@ public class EnterpriseSearchService {
     }
 
     private SearchRequest getLocationSearchRequest(SearchQuery.Request param, List<SortOptions> sortOptions) {
-        Query query = EnterpriseLocationSearchQuery.getQuery(param);
-        log.info("query: {}", query.toString());
         return SearchRequest.of(req ->
-                req.query(query)
+                req.query(EnterpriseLocationSearchQuery.getQuery(param))
                         .from(param.getPage() == 1 ? 0 : param.getPage() * param.getSize())
                         .size(param.getSize())
                         .sort(sortOptions)
