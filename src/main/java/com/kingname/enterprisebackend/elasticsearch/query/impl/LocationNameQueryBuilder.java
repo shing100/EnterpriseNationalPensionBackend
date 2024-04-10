@@ -7,7 +7,7 @@ import com.kingname.enterprisebackend.vo.SearchQuery;
 public class LocationNameQueryBuilder implements EsQueryBuilder {
 
     public static Query getQuery(SearchQuery.Request request) {
-        if (!request.getLocation().isEmpty())
+        if (request.getLocation() != null && !request.getLocation().isEmpty())
             return EsQueryBuilder.inQuery("locationName.keyword", request.getLocation());
         return null;
     }
