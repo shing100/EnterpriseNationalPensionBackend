@@ -7,7 +7,7 @@ import com.kingname.enterprisebackend.vo.SearchQuery;
 public class IndustryCodeQueryBuilder implements EsQueryBuilder {
 
     public static Query getQuery(SearchQuery.Request request) {
-        if (!request.getIndustry().isEmpty())
+        if (request.getIndustry() != null && !request.getIndustry().isEmpty())
             return EsQueryBuilder.inQuery("companyIndustryCode.keyword", request.getIndustry());
         return null;
     }
