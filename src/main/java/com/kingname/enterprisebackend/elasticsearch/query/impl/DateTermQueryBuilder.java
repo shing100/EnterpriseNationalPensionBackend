@@ -7,7 +7,7 @@ import com.kingname.enterprisebackend.vo.SearchQuery;
 public class DateTermQueryBuilder implements EsQueryBuilder {
 
     public static Query getQuery(SearchQuery.Request request) {
-        if (!request.getDate().isEmpty())
+        if (request.getDate() != null && !request.getDate().isEmpty())
             return EsQueryBuilder.inQuery("date", request.getDate());
         return null;
     }
