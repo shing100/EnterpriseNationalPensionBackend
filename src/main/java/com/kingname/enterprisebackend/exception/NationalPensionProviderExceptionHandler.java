@@ -14,6 +14,7 @@ public class NationalPensionProviderExceptionHandler {
 
     @ExceptionHandler(NationPensionException.class)
     public ErrorResponse descriptionExceptionHandler(NationPensionException e, HttpServletRequest request) {
+        e.printStackTrace();
         log.error("errorCode: {}, url: {}, message: {}", e.getErrorCode(), request.getRequestURI(), e.getMessage());
         return ErrorResponse.builder()
                 .errorCode(e.getErrorCode())
@@ -23,6 +24,7 @@ public class NationalPensionProviderExceptionHandler {
 
     @ExceptionHandler(value = {HttpRequestMethodNotSupportedException.class, MethodArgumentNotValidException.class})
     public ErrorResponse handleBadRequest(Exception e, HttpServletRequest request) {
+        e.printStackTrace();
         log.error("url: {}, message: {}", request.getRequestURI(), e.getMessage());
         return ErrorResponse.builder()
                 .errorCode(ErrorCode.INTERNAL_SERVER_EXCEPTION)
@@ -32,6 +34,7 @@ public class NationalPensionProviderExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ErrorResponse handleException(Exception e, HttpServletRequest request) {
+        e.printStackTrace();
         log.error("url: {}, message: {}", request.getRequestURI(), e.getMessage());
         return ErrorResponse.builder()
                 .errorCode(ErrorCode.INTERNAL_SERVER_EXCEPTION)
