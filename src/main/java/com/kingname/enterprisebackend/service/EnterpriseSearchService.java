@@ -44,6 +44,7 @@ public class EnterpriseSearchService {
         getSortOptions(param, "currentMonthDueAmount", sortOptions);
         getSortOptions(param, "totalMemberCount", sortOptions);
         getSortOptions(param, "date.keyword", sortOptions);
+        getSortOptions(param, "date", sortOptions);
 
         SearchResponse<Map> response = repository.search(getSearchRequest(param, sortOptions));
         return response.hits().hits().stream()
