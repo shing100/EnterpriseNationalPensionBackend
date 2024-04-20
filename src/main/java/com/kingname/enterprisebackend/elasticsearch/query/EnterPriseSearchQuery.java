@@ -1,10 +1,7 @@
 package com.kingname.enterprisebackend.elasticsearch.query;
 
 import co.elastic.clients.elasticsearch._types.query_dsl.*;
-import com.kingname.enterprisebackend.elasticsearch.query.impl.CompanyNameQueryBuilder;
-import com.kingname.enterprisebackend.elasticsearch.query.impl.DateTermQueryBuilder;
-import com.kingname.enterprisebackend.elasticsearch.query.impl.MemberFilterQueryBuilder;
-import com.kingname.enterprisebackend.elasticsearch.query.impl.ScaleQueryBuilder;
+import com.kingname.enterprisebackend.elasticsearch.query.impl.*;
 import com.kingname.enterprisebackend.vo.SearchQuery;
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,7 +49,8 @@ public class EnterPriseSearchQuery implements EsQueryBuilder {
         return Stream.of(
                         MemberFilterQueryBuilder.getQuery(request.getMaxMemberCount(), request.getMinMemberCount()),
                         ScaleQueryBuilder.getQuery(request),
-                        DateTermQueryBuilder.getQuery(request)
+                        DateTermQueryBuilder.getQuery(request),
+                        CsnQueryBuilder.getQuery(request)
                 )
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
