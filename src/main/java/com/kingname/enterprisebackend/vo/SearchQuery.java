@@ -20,6 +20,7 @@ public class SearchQuery {
         private int minMemberCount;
         private int maxMemberCount;
         private String csn;
+        private String zipCode;
 
         private int page = 0;
         private int size = 40;

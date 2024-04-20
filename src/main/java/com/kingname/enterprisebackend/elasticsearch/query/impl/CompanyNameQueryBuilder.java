@@ -20,9 +20,11 @@ public class CompanyNameQueryBuilder implements EsQueryBuilder {
         List<String> tokens = Arrays.stream(company.split(" "))
                 .filter(StringUtils::isNotBlank)
                 .collect(Collectors.toList());
+        
+        // 아직 개선이 필요함
         return EsQueryBuilder.shouldQuery(
-                EsQueryBuilder.inQuery("companyName", tokens),
-                EsQueryBuilder.inQuery("originalCompanyName", tokens),
+                EsQueryBuilder.inQuery("companyName.keyword", tokens),
+                EsQueryBuilder.inQuery("originalCompanyName.keyword", tokens),
                 EsQueryBuilder.inQuery("synCompanyName", tokens)
         );
     }
