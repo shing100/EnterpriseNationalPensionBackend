@@ -5,16 +5,25 @@ import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import com.kingname.enterprisebackend.elasticsearch.query.EsQueryBuilder;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class CompanyNameQueryBuilder implements EsQueryBuilder {
 
     public static Query getQuery(String company) {
         if (StringUtils.isEmpty(company)) {
             return null;
         }
+
+        // 기업명을 이용해서 토큰 분석을 하여 검색어를 생성
+        List<String> tokens = Arrays.stream(company.split(" "))
+                .filter(StringUtils::isNotBlank)
+                .collect(Collectors.toList());
         return EsQueryBuilder.shouldQuery(
-                EsQueryBuilder.inQuery("companyName", company),
-                EsQueryBuilder.inQuery("originalCompanyName", company),
-                EsQueryBuilder.inQuery("synCompanyName", company)
+                EsQueryBuilder.inQuery("companyName", tokens),
+                EsQueryBuilder.inQuery("originalCompanyName", tokens),
+                EsQueryBuilder.inQuery("synCompanyName", tokens)
         );
     }
 }
